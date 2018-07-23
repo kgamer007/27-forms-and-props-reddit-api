@@ -19,7 +19,7 @@ webpackConfig.output = {
 
 webpackConfig.plugins = [
   new HtmlWebpackPlugin({
-    title: 'Day 27 pokemon reddit',
+    title: 'Day 27 reddit app',
   }),
   new DefinePlugin({
     API_URL: JSON.stringify(process.env.API_URL),

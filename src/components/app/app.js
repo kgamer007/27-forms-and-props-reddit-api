@@ -1,18 +1,17 @@
 import React from 'react';
-import PokemonList from '../list/list';
-import PokemonDetail from '../detail/detail';
+import RedditList from '../list/list';
+// import PokemonDetail from '../detail/detail';
 import { fetchData } from '../../lib/utils';
 
 import './app.scss';
 
-const pokemonApi = 'https://pokeapi.co/api/v2/pokemon';
+const redditApi = 'https://www.reddit.com/r';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pokemon: {},
-      pokemonList: [],
+      pages: [],
       loading: false,
     };
   }
@@ -24,54 +23,45 @@ export default class App extends React.Component {
         this.setState({ loading: false });
         return data;
       })
-      .catch(console.error);
+      .catch(console.error); // eslint-disable-line
   }
 
-  // this is a lifecyle hook provided to us by React
-  componentDidMount() {
-    // when you draw yourself on the page, do this logic here
-    this.loadPokemonList()
-      .then((pokemonList) => {
-        this.setState({ pokemonList });
-      })
-      .catch(console.error);
-  }
-
-  loadPokemonList = () => {
-    return this.load(pokemonApi)
-      .then((pokeData) => {
-        return pokeData.results;
-      })
-      .catch(console.error);
-  }
-
-  pokemonDetails = (event) => {
-    const url = event.target.id;
+  redditSearch = (search, limit) => {
+    const url = `${redditApi}/${search}.json?limit=${limit}`;
     return this.load(url)
-      .then((pokemon) => {
-        this.setState({ pokemon });
+      .then((pages) => {
+        this.setState({ pages });
       })
-      .catch(console.error);
+      .catch(console.error); // eslint-disable-line
   }
+
+  // pokemonDetails = (event) => {
+  //   const url = event.target.id;
+  //   return this.load(url)
+  //     .then((pokemon) => {
+  //       this.setState({ pokemon });
+  //     })
+  //     .catch(console.error);
+  // }
 
   pokemonSearch = (search) => {
-    const url = `${pokemonApi}/${search}`;
+    const url = `${redditApi}/${search}`;
     return this.load(url)
       .then((pokemon) => {
         this.setState({ pokemon });
       })
-      .catch(console.error);
+      .catch(console.error); // eslint-disable-line
   }
 
   render() {
     return (
       <main className="container">
-        <PokemonList 
-          searchMethod={ this.pokemonSearch }
-          pokemon={ this.state.pokemonList }
-          pokemonLoader={ this.pokemonDetails }
+        <RedditList 
+          searchMethod={ this.redditSearch }
+          pages={ this.state.pages }
+          // pokemonLoader={ this.pokemonDetails }
         />
-        <PokemonDetail pokemon={this.state.pokemon} />
+        {/* <PokemonDetail pokemon={this.state.pokemon} /> */}
       </main>
     );
   }
