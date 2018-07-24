@@ -14,8 +14,7 @@ export default class RedditList extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.searchMethod(this.state.search);
-    this.props.searchMethod(this.state.limit);
+    this.props.searchMethod(this.state.search, this.state.limit);
   }
 
   handleSearch = (event) => {

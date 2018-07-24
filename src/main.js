@@ -7,7 +7,7 @@ class Main extends React.Component {
     return (
       <React.Fragment>
        <App />
-        <h1>Did we make it?</h1>
+        <h1>End of the list</h1>
       </React.Fragment>
     );
   }
