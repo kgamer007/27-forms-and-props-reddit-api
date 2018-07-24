@@ -5,7 +5,7 @@ import { fetchData } from '../../lib/utils';
 
 import './app.scss';
 
-const redditApi = 'https://www.reddit.com/r';
+const redditApi = 'https://www.reddit.com';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -20,6 +20,8 @@ export default class App extends React.Component {
     this.setState({ loading: true });
     return fetchData(url)
       .then((data) => {
+        console.log(data);
+        
         this.setState({ loading: false });
         return data;
       })
@@ -27,10 +29,12 @@ export default class App extends React.Component {
   }
 
   redditSearch = (search, limit) => {
-    const url = `${redditApi}/${search}.json?limit=${limit}`;
+    const url = `${redditApi}/r/${search}.json?limit=${limit}`;
     return this.load(url)
       .then((pages) => {
-        this.setState({ pages });
+        console.log(pages);
+        
+        this.setState({ pages: pages.data.children });
       })
       .catch(console.error); // eslint-disable-line
   }
@@ -44,14 +48,14 @@ export default class App extends React.Component {
   //     .catch(console.error);
   // }
 
-  pokemonSearch = (search) => {
-    const url = `${redditApi}/${search}`;
-    return this.load(url)
-      .then((pokemon) => {
-        this.setState({ pokemon });
-      })
-      .catch(console.error); // eslint-disable-line
-  }
+  // redditSearch = (search) => {
+  //   const url = `${redditApi}/${search}`;
+  //   return this.load(url)
+  //     .then((pokemon) => {
+  //       this.setState({ pokemon });
+  //     })
+  //     .catch(console.error); // eslint-disable-line
+  // }
 
   render() {
     return (
